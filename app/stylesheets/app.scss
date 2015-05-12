@@ -5,7 +5,7 @@ html {
 body {
 	font-family: 'Open Sans';
 	color: white;
-	min-height:100%;
+	min-height: 100%;
 	background: -webkit-radial-gradient(#2b1339, #380c77);
 	background: radial-gradient(#2b1339, #380c77);
 }
@@ -47,8 +47,7 @@ body.landing {
 	font-size: 14px;
 }
 
-// medium-purple: #7B46A3 - 123, 70, 163
- //
+
 
  .player-header-nav {
  	background-color: rgba(123, 70, 163, .9);
@@ -103,3 +102,26 @@ body.landing {
    padding: 20px;
    border-top: 1px solid rgba(255, 255, 255, .4);
  }
+
+   .collection-album-container {
+     margin-top: 30px;
+     margin-bottom: 20px;
+  }
+  .collection-album-container .caption {
+     margin-top: 10px;
+  }
+  .collection-album-container .caption p {
+     font-size: 16px;
+     font-weight: 300;
+     color: rgba(255, 255, 255, 0.6);
+  }
+  .collection-album-container .caption p a {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .collection-album-container .caption p a.album-name {
+    color: white;
+  }
+ 
+  .collection-album-container img {
+    max-width: 100%;
+  }
