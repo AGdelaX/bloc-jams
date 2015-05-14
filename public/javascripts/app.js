@@ -123,15 +123,73 @@ var albumMarconi = {
 			]
 };
 
+var currentlyPlayingSong = null;
+
 var createSongRow = function(songNumber, songName, songLength) {
-	var $template = 
+	var template = 
 	'<tr>'
-     + '  <td class="col-md-1">' + songNumber + '</td>'
+     + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
      + '  <td class="col-md-9">' + songName + '</td>'
      + '  <td class="col-md-2">' + songLength + '</td>'
      + '</tr>'
      ;
-     return $template;
+     // Instead of returning the row immediately, we'll attach hover
+  // functionality to it first.
+   var $row = $(template);
+ 	// Change from a song number to play button when the song isn't playing and we hover over the row.
+   var onHover = function(event) {
+     var songNumberCell = $(this).find('.song-number');
+     songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+     var songNumber = songNumberCell.data('song-number');
+    if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+    }
+   };
+ 
+   var offHover = function(event) {
+     var songNumberCell = $(this).find('.song-number');
+     var songNumber = songNumberCell.data('song-number');
+     if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html(songNumber);
+    }
+   };
+
+   var clickHandler = function(event) {
+     var songNumber = $(this).data('song-number');
+
+ 		 // a song is playing
+     if (currentlyPlayingSong !== null) {
+       // Stop playing current song.
+       // Replace stopped song button with number.
+       // Revert to song number for currently playing song because user started playing new song.
+       currentlyPlayingCell = $('.song-number[data-song-number="' + currentlyPlayingSong + '"]');
+       currentlyPlayingCell.html(currentlyPlayingSong);
+     }
+
+ 		 //a non-playing song was clicked
+     if (currentlyPlayingSong !== songNumber) {
+       // A Play icon will be showing because of hover.
+       // Switch from Play -> Pause to indicate new song is playing.
+       // Set the current song to the one clicked
+       // Switch from Play -> Pause button to indicate new song is playing.
+       $(this).html('<a class="album-song-button"><i class="fa fa-pause"></i></a>');
+       currentlyPlayingSong = songNumber;
+     }
+
+     		  //the playing song was clicked
+     else if (currentlyPlayingSong === songNumber) {
+       // Switch from Pause -> Play for current song to indicate pausing.
+       // Set the current song to null
+       // Switch from Pause -> Play button to pause currently playing song.
+       $(this).html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+       currentlyPlayingSong = null;
+     }
+   };
+
+   $row.find('.song-number').click(clickHandler);
+
+   $row.hover(onHover, offHover);
+   return $row;
 };
 
 var changeAlbumView = function(album) {
