@@ -21,9 +21,9 @@ var updateCollectionView = function(){
 	var $collection= $('.collection-container .row');
 	$collection.empty();
 
-	var x = 25 + Math.floor (Math.random() * 75) ;
+	var randomNumber = 25 + Math.floor (Math.random() * 75) ;
 		
-	for (var i =0; i <= x; i++) {
+	for (var i =0; i <= randomNumber; i++) {
 		var $newThumbnail = buildAlbumThumbnail();
 		$collection.append($newThumbnail);
 	}
