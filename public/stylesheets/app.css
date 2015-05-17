@@ -151,10 +151,12 @@ collection-album-container {
   height: 150px;
   background: rgba(255, 255, 255, 0.3);
   z-index: 100; }
-  .player-bar a, .player-bar a:hover {
+  .player-bar a {
     color: white;
     cursor: pointer;
     text-decoration: none; }
+  .player-bar a:hover {
+    color: #d2287b; }
   .player-bar .container {
     display: table;
     padding: 0;
@@ -248,7 +250,8 @@ collection-album-container {
     width: 20px;
     height: 20px;
     margin-top: -10px;
-    margin-left: -10px; }
+    margin-left: -10px;
+    background: #d2287b; }
 
 html {
   height: 100%; }
