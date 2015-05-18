@@ -294,9 +294,33 @@ var changeAlbumView = function(album) {
 // require('./album');
 // require('./profile');
 
-angular.module('BlocJams', []).controller('Landing.controller', ['$scope', function($scope) {
-	console.log("Landing.controller");
+blocJams = angular.module('BlocJams', ['ui.router']);
+
+blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
+   $locationProvider.html5Mode(true);
+ 
+   $stateProvider.state('landing', {
+     url: '/',
+     controller: 'Landing.controller',
+     templateUrl: '/templates/landing.html'
+   });
+
+   $stateProvider.state('song', {
+     url: '/song',
+     controller: 'Song.controller',
+     templateUrl: '/templates/song.html'
+   	});
+}]);
+
+blocJams.run(function () {
+    console.log('Run block ran.', Date.now());
+});
+
+blocJams.controller('Landing.controller', ['$scope', function($scope) {
+
+	console.log("Landing.controller", Date.now());
 	$scope.subText = "Turn the music up!";
+
 
 		$scope.subTextClicked = function() {
 			$scope.subText += '!';
@@ -319,6 +343,10 @@ angular.module('BlocJams', []).controller('Landing.controller', ['$scope', funct
     		return o;
 			};
 
+}]);
+
+blocJams.controller('Song.controller', ['$scope', function($scope) {
+	alert('Song controller loaded!')
 }]);
 });
 
