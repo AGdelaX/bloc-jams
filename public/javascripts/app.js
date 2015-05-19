@@ -315,29 +315,46 @@ blocJams = angular.module('BlocJams', ['ui.router']);
 blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
    $locationProvider.html5Mode(true);
  
-   $stateProvider.state('landing', {
+ $stateProvider
+   .state('landing', {
      url: '/',
      controller: 'Landing.controller',
      templateUrl: '/templates/landing.html'
-   });
+   })
 
-   $stateProvider.state('song', {
+	.state('song', {
      url: '/song',
      controller: 'Song.controller',
-     templateUrl: '/templates/song.html'
-   	});
+     
+     views:{
+   			'': {templateUrl: '/templates/song.html'},
+   			'playerBar@song': {templateUrl: '/templates/player_bar.html'}
+   		}
+   	})
 
-   $stateProvider.state('collection', {
+	.state('collection', {
    		url: '/collection',
    		controller: 'Collection.controller',
    		templateUrl: '/templates/collection.html'
-   });
 
-   $stateProvider.state('album', {
+   		// views:{
+   		// 	'': {templateUrl: '/templates/collection.html'},
+   		// 	'playerBar@collection': {templateUrl: '/templates/player_bar.html'}
+   		// }
+
+   		
+   })
+
+	.state('album', {
    		url: '/album',
-   		templateUrl: '/templates/album.html',
-   		controller: 'Album.controller'
-   });
+   		controller: 'Album.controller',
+   		templateUrl: '/templates/album.html'
+
+   		// views:{
+   		// 	'': {templateUrl: '/templates/album.html'},
+   		// 	'playerBar@album': {templateUrl: '/templates/player_bar.html'}
+   		// }
+   })
 }]);
 
 blocJams.run(function () {
