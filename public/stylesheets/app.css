@@ -349,6 +349,16 @@ body.landing .navbar {
 .player-header-nav {
   background-color: rgba(123, 70, 163, 0.9); }
 
+.navbar-nav a {
+  line-height: 45px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1.2;
+  float: right; }
+  .navbar-nav a:hover {
+    color: rgba(123, 70, 163, 0.9); }
+
 /*# sourceMappingURL=app.css.map*/
 
 /*# sourceMappingURL=app.css.map*/
