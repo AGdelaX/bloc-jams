@@ -68,9 +68,6 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
    })
 }]);
 
-blocJams.service('ConsoleLogger', function() {
-	return "Hello World!";
-});
 
 blocJams.run(function () {
     console.log('Run block ran.', Date.now());
@@ -81,6 +78,9 @@ blocJams.controller('Landing.controller', ['$scope', function($scope) {
 	console.log("Landing.controller", Date.now());
 	$scope.subText = "Turn the music up!";
 
+	// $scope.consoleLogger = function(){
+	// consoleLogger.log();
+	// };	
 
 		$scope.subTextClicked = function() {
 			$scope.subText += '!';
@@ -273,3 +273,55 @@ var updateSeekPercentage = function($seekBar, event) {
 	};
 });
 
+blocJams.directive('clickbutton', function(){
+	return {
+		templateUrl: '/templates/directives/clickButton.html',
+		replace: true,
+		restrict: 'E',
+		link: function(scope, element, attributes) {
+
+			var $button = $(element);
+			
+			$button.click(function(){
+			alert('Clicked!');
+		});
+		}
+	};
+});
+
+blocJams.directive('counthovertime', function(){
+	return {
+		templateUrl: '/templates/directives/countHoverTime.html',
+		replace: true,
+		restrict: 'E',
+		link: function(scope, element, attributes) {
+
+			var $hoverOver = $(element);
+
+			var enter = null;
+			var leave = null;
+
+			$hoverOver.mouseenter(function(){
+				var enter = Date.now();
+			});
+
+			$hoverOver.mouseleave(function(){
+				var leave = Date.now();
+				
+				console.log((leave - enter)/1000);
+
+			});
+
+			}
+
+		};
+	});
+
+
+// blocJams.directive('consoleLogger', function(){
+// 	return {
+// 		log: function(){
+// 			console.log("Hello World!")
+// 		}
+// 	};
+// });
