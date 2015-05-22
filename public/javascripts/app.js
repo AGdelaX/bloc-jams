@@ -304,11 +304,11 @@ var albumPicasso = {
    albumArtUrl: '/images/album-placeholder.png',
  
    songs: [
-       { name: 'Blue', length: '4:26', audioUrl: '/music/placeholders/blue' },
-       { name: 'Green', length: '3:14', audioUrl: '/music/placeholders/green'},
-       { name: 'Red', length: '5:01', audioUrl: '/music/placeholders/red'},
-       { name: 'Pink', length: '3:21', audioUrl: '/music/placeholders/pink'},
-       { name: 'Magenta', length: '2:15', audioUrl: '/music/placeholders/magenta'}
+       { name: 'Blue', length: 163.38, audioUrl: '/music/placeholders/blue' },
+       { name: 'Green', length: 105.66, audioUrl: '/music/placeholders/green'},
+       { name: 'Red', length: 270.14, audioUrl: '/music/placeholders/red'},
+       { name: 'Pink', length: 154.81, audioUrl: '/music/placeholders/pink'},
+       { name: 'Magenta', length: 375.92, audioUrl: '/music/placeholders/magenta'}
      ]
  };
 
@@ -413,10 +413,10 @@ blocJams.controller('Collection.controller', ['$scope', 'SongPlayer', function($
 
 
 
-blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer){
+blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger){
 	$scope.album = angular.copy(albumPicasso);
 	
-	// ConsoleLogger.log();
+	ConsoleLogger.log();
 
 		var hoveredSong = null;
 
@@ -502,6 +502,12 @@ blocJams.service('SongPlayer', function() {
        this.setSong(this.currentAlbum, song);
      },
 
+     seek : function(time) {
+     	if(currentSoundFile) {
+     		currentSoundFile.setTime(time);
+     	}
+     },
+
 		setSong: function (album, song) {
 			  if (currentSoundFile) {
       			currentSoundFile.stop();
@@ -529,20 +535,47 @@ blocJams.directive('slider', ['$document', function($document){
 		return offsetXPercent;
 	}
 
+	var numberFromValue = function(value, defaultValue) {
+		if (typeof value === 'number') {
+			return value;
+		}
+		if (typeof value === 'undefined') {
+			return defaultValue;
+		}
+
+		if(typeof value === 'string') {
+			return Number(value);
+		}
+	}
+
 	return {
 		templateUrl: '/templates/directives/slider.html',
 		replace: true,
 		restrict: 'E',
-		scope: {},
+		scope: {
+			onChange : '&'
+		},
 		link: function(scope, element, attributes) {
  			
  			scope.value=0;
- 			scope.max=200;
+ 			scope.max=100;
+
+ 			console.log(attributes);
 
      		var $seekBar = $(element);
 
+     		attributes.$observe('value', function(newValue) {
+     			scope.value= numberFromValue(newValue, 0);
+     		});
+
+     		attributes.$observe('max', function(newValue) {
+     			scope.max = numberFromValue(newValue, 100) || 100;
+     		});
+
      		var percentString = function () {
-     			var percent = Number(scope.value)/Number(scope.max) * 100;
+     			var value = scope.value || 0;
+     			var max = scope.max || 100;
+     			percent = value / max * 100;
      			return percent + '%';
      		}
 
@@ -557,6 +590,7 @@ blocJams.directive('slider', ['$document', function($document){
      		scope.onClickSlider = function(event){
      			var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
      			scope.value = percent * scope.max;
+     			notifyCallback(scope.value);
      		}
 
      		scope.trackThumb = function(){
@@ -564,6 +598,7 @@ blocJams.directive('slider', ['$document', function($document){
      				var percent = calculateSliderPercentFromMouseEvent ($seekBar, event);
      				scope.$apply(function(){
      					scope.value = percent * scope.max;
+     					notifyCallback(scope.value);
      				});
      			});
 
@@ -571,6 +606,12 @@ blocJams.directive('slider', ['$document', function($document){
      				$document.unbind('mousemove.thumb');
      				$document.unbind('mouseup.thumb');
      			});
+     		};
+
+     		var notifyCallback = function(newValue) {
+     			if (typeof scope.onChange === 'function') {
+     				scope.onChange({value: newValue});
+     			}
      		};
 
     }
@@ -633,13 +674,13 @@ blocJams.directive('classify', function(){
 	};
 });
 
-// blocJams.directive('consoleLogger', function(){
-// 	return {
-// 		log: function(){
-// 			console.log("Hello World!")
-// 		}
-// 	};
-// });
+blocJams.service('ConsoleLogger', function(){
+	return {
+		log: function(){
+			console.log("Hello World!")
+		}
+	};
+});
 
 });
 
