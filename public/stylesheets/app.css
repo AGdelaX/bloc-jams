@@ -198,10 +198,14 @@ collection-album-container {
   .player-bar .volume {
     display: inline-block; }
     .player-bar .volume i {
-      width: 40px;
+      width: 20px;
       font-size: 20px;
       display: inline-block;
-      vertical-align: middle; }
+      vertical-align: middle;
+      text-align: left; }
+    .player-bar .volume i:hover {
+      color: #d2287b;
+      cursor: pointer; }
     .player-bar .volume .slider {
       display: inline-block;
       width: 100px;
